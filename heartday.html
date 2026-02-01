@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Hello</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Pacifico&family=Quicksand:wght@400;700&display=swap"
+        rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Quicksand', sans-serif;
+            overflow: hidden;
+        }
+
+        .font-love {
+            font-family: 'Pacifico', cursive;
+        }
+
+        /* Floating Hearts Animation */
+        .heart {
+            position: absolute;
+            color: rgba(255, 182, 193, 0.6);
+            animation: float 15s infinite linear;
+            z-index: -1;
+        }
+
+        @keyframes float {
+            0% {
+                transform: translateY(100vh) rotate(0deg);
+                opacity: 1;
+            }
+
+            100% {
+                transform: translateY(-10vh) rotate(360deg);
+                opacity: 0;
+            }
+        }
+    </style>
+</head>
+
+<body class="min-h-screen flex items-center justify-center bg-pink-50">
+
+    <div id="hearts-container" class="fixed inset-0 pointer-events-none"></div>
+
+    <div
+        class="bg-white/90 backdrop-blur-sm p-8 md:p-12 rounded-[2rem] shadow-[0_20px_50px_rgba(255,182,193,0.5)] max-w-md w-full text-center border-b-8 border-pink-200 relative mx-4">
+
+        <div class="text-6xl mb-6 animate-bounce">💝</div>
+
+        <h1 class="text-4xl md:text-5xl font-love text-pink-500 mb-6">Will you be my Valentine?</h1>
+
+        <p class="text-pink-400 text-lg mb-10 leading-relaxed">
+            Every moment with you is like a <span class="font-bold">fairytale</span>.
+            Will you make mine come true?
+        </p>
+
+        <div class="flex flex-col sm:flex-row justify-center items-center gap-6" id="button-group">
+            <button onclick="celebrate()"
+                class="bg-pink-500 hover:bg-pink-600 hover:scale-110 active:scale-95 text-white font-bold py-4 px-12 rounded-full shadow-lg transition-all duration-300 text-xl">
+                Yes! 💖
+            </button>
+
+            <button id="noButton" onmouseover="moveButton()" onclick="moveButton()"
+                class="bg-gray-100 text-gray-400 font-semibold py-3 px-8 rounded-full border-2 border-transparent transition-all duration-200">
+                No
+            </button>
+        </div>
+
+        <div id="response" class="hidden mt-8">
+            <h2 class="text-3xl font-love text-red-500 animate-pulse">Yay! Best day ever! 🌹</h2>
+            <p class="text-pink-400 mt-2">I love you, bebe :3!</p>
+        </div>
+    </div>
+
+    <script>
+        // Create floating background hearts
+        function createHeart() {
+            const heart = document.createElement('div');
+            heart.classList.add('heart');
+            heart.innerHTML = '❤️';
+            heart.style.left = Math.random() * 100 + 'vw';
+            heart.style.fontSize = (Math.random() * 20 + 10) + 'px';
+            heart.style.animationDuration = (Math.random() * 5 + 10) + 's';
+            document.getElementById('hearts-container').appendChild(heart);
+            setTimeout(() => heart.remove(), 15000);
+        }
+        setInterval(createHeart, 300);
+
+        // Make the "No" button run away
+        function moveButton() {
+            const btn = document.getElementById('noButton');
+            const x = Math.random() * (window.innerWidth - btn.offsetWidth);
+            const y = Math.random() * (window.innerHeight - btn.offsetHeight);
+
+            btn.style.position = 'absolute';
+            btn.style.left = x + 'px';
+            btn.style.top = y + 'px';
+        }
+
+        // Success state
+        function celebrate() {
+            document.getElementById('button-group').classList.add('hidden');
+            document.getElementById('response').classList.remove('hidden');
+            document.body.style.backgroundColor = '#ffe4e6';
+
+            // Add extra hearts for celebration
+            for (let i = 0; i < 50; i++) {
+                setTimeout(createHeart, i * 50);
+            }
+        }
+    </script>
+</body>
+
+</html>
